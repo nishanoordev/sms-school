@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { UserPlus, Search, Mail, Phone, Book, GraduationCap, Edit2, Trash2, X, IndianRupee } from 'lucide-react';
+import { UserPlus, Search, Mail, Phone, Book, GraduationCap, Trash2, X, IndianRupee } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import './Staff.css';
 

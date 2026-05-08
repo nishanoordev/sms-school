@@ -1,0 +1,28 @@
+.payroll-page { display: flex; flex-direction: column; gap: 24px; }
+.payroll-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.payroll-stat { display: flex; align-items: center; gap: 16px; padding: 20px; }
+.ps-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.ps-icon.green { background: #dcfce7; color: #15803d; }
+.ps-icon.orange { background: #fef3c7; color: #d97706; }
+.ps-icon.blue { background: #dbeafe; color: #1d4ed8; }
+.payroll-stat span { font-size: 12px; color: var(--text-hint); }
+.payroll-stat h3 { font-size: 24px; font-weight: 800; margin: 0; }
+.payroll-table-card { padding: 24px; }
+.payroll-table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.payroll-table-header h3 { margin: 0; }
+.month-filter { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; }
+.payroll-table { width: 100%; border-collapse: collapse; }
+.payroll-table th { padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; color: var(--text-hint); border-bottom: 1px solid var(--border); }
+.payroll-table td { padding: 14px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.payroll-table .allowance { color: #15803d; }
+.payroll-table .deduction { color: #dc2626; }
+.salary-preview { background: var(--green-50); border-radius: 10px; padding: 12px 16px; font-size: 14px; color: var(--green-900); }
+.payslip-content { padding: 16px; }
+.payslip-header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 12px; margin-bottom: 16px; }
+.payslip-header h2 { font-size: 20px; margin: 0; }
+.payslip-info { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; }
+.payslip-info div { display: flex; gap: 8px; }
+.payslip-table { width: 100%; border-collapse: collapse; }
+.payslip-table td { padding: 10px 12px; border: 1px solid #ddd; font-size: 14px; }
+.payslip-table .net-row td { background: var(--green-50); font-size: 16px; }
+.payslip-sigs { display: flex; justify-content: space-between; margin-top: 48px; font-size: 13px; font-weight: 700; padding-top: 12px; border-top: 1px solid #ddd; }

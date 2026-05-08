@@ -15,6 +15,12 @@ import Subjects from './pages/Subjects';
 import Classes from './pages/Classes';
 import Finance from './pages/Finance';
 import Settings from './pages/Settings';
+import SchoolCalendar from './pages/Calendar';
+import Leave from './pages/Leave';
+import Payroll from './pages/Payroll';
+import Homework from './pages/Homework';
+import Exams from './pages/Exams';
+import TCGenerator from './pages/TCGenerator';
 import './App.css';
 
 function App() {
@@ -31,9 +37,15 @@ function App() {
           <Route path="classes" element={<Classes />} />
           <Route path="staff" element={<Staff />} />
           <Route path="finance" element={<Finance />} />
-          <Route path="settings" element={<Settings />} />
           <Route path="communication" element={<Communication />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="calendar" element={<SchoolCalendar />} />
+          <Route path="leave" element={<Leave />} />
+          <Route path="payroll" element={<Payroll />} />
+          <Route path="homework" element={<Homework />} />
+          <Route path="exams" element={<Exams />} />
+          <Route path="tc" element={<TCGenerator />} />
           <Route path="*" element={<Dashboard />} />
         </Route>
       </Routes>

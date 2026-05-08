@@ -1,0 +1,38 @@
+.tc-page { display: flex; flex-direction: column; gap: 24px; }
+.tc-layout { display: grid; grid-template-columns: 360px 1fr; gap: 24px; align-items: start; }
+.tc-search-panel { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.tc-search-panel h3 { margin: 0; font-size: 18px; font-weight: 700; }
+.search-box-tc { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+.search-box-tc input { border: none; outline: none; background: transparent; font-size: 14px; flex: 1; }
+.tc-settings { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: var(--bg); border-radius: 12px; }
+.student-tc-list { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; }
+.student-tc-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: white; }
+.student-tc-item.left-student { opacity: 0.7; }
+.stc-info { display: flex; align-items: center; gap: 12px; }
+.stc-avatar { width: 36px; height: 36px; background: var(--green-900); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+.stc-info strong { display: block; font-size: 14px; }
+.stc-info span { font-size: 12px; color: var(--text-hint); display: block; }
+.left-badge { background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 800; margin-top: 2px; }
+.tc-preview-panel { padding: 24px; }
+.tc-preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.tc-preview-actions { display: flex; gap: 10px; }
+.tc-document { border: 2px solid #333; border-radius: 0; padding: 32px; background: white; }
+.tc-doc-header { display: flex; align-items: center; gap: 20px; border-bottom: 2px solid #333; padding-bottom: 16px; margin-bottom: 16px; }
+.tc-school-logo { width: 64px; height: 64px; background: var(--green-50); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; }
+.tc-school-info h2 { margin: 0; font-size: 20px; }
+.tc-school-info p { margin: 2px 0 0; font-size: 12px; color: #555; }
+.tc-title-bar { text-align: center; margin: 16px 0; }
+.tc-title-bar h2 { font-size: 20px; text-decoration: underline; letter-spacing: 2px; margin: 0; }
+.tc-meta { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 13px; }
+.tc-details-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+.tc-details-table td { padding: 8px 12px; border: 1px solid #ccc; font-size: 14px; }
+.tc-details-table td:first-child { font-weight: 600; background: #f9f9f9; width: 40%; }
+.tc-certified { font-size: 13px; margin: 16px 0; font-style: italic; }
+.tc-signatures { display: flex; justify-content: space-between; margin-top: 48px; }
+.tc-sig-box { text-align: center; font-size: 13px; font-weight: 700; }
+.sig-line { width: 120px; border-top: 1px solid #333; margin: 0 auto 6px; }
+@media (max-width: 1024px) { .tc-layout { grid-template-columns: 1fr; } }
+@media print {
+  .tc-document { border: 2px solid #000; }
+  .tc-preview-actions, .no-print { display: none !important; }
+}

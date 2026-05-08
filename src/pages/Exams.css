@@ -1,0 +1,11 @@
+.exams-page { display: flex; flex-direction: column; gap: 24px; }
+.exam-filter-bar { padding: 16px 20px; }
+.exam-table-card { padding: 24px; }
+.exam-table { width: 100%; border-collapse: collapse; }
+.exam-table th { padding: 12px; text-align: left; font-size: 12px; text-transform: uppercase; color: var(--text-hint); border-bottom: 1px solid var(--border); }
+.exam-table td { padding: 14px 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+.exam-table tr.past-exam { opacity: 0.6; }
+.exam-class-badge { background: var(--green-900); color: white; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; }
+.exam-status-badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; }
+.exam-status-badge.upcoming { background: #dbeafe; color: #1d4ed8; }
+.exam-status-badge.completed { background: #f3f4f6; color: #6b7280; }
