@@ -1,0 +1,119 @@
+.routine-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.routine-controls {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 24px;
+}
+
+.routine-info-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue-50);
+  color: var(--blue-700);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.routine-timetable-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.timetable-wrapper {
+  overflow-x: auto;
+}
+
+.timetable-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.timetable-table th {
+  background: var(--green-900);
+  color: white;
+  padding: 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--green-800);
+}
+
+.timetable-table td {
+  border: 1px solid var(--border);
+  padding: 12px;
+  vertical-align: top;
+}
+
+.slot-name-col {
+  background: var(--bg);
+  width: 160px;
+}
+
+.slot-name-col strong {
+  display: block;
+  font-size: 13px;
+  color: var(--green-900);
+}
+
+.slot-name-col span {
+  font-size: 11px;
+  color: var(--text-hint);
+}
+
+.slot-content-cell {
+  background: white;
+}
+
+.class-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.s-subject {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.s-teacher {
+  font-size: 11px;
+  color: var(--text-hint);
+}
+
+.break-row {
+  background: var(--gray-50);
+}
+
+.break-row td {
+  background: var(--gray-50) !important;
+}
+
+.special-activity {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-hint);
+  text-align: center;
+  text-transform: uppercase;
+  padding: 8px;
+}
+
+@media print {
+  .sidebar, .top-header, .header-actions, .routine-controls {
+    display: none;
+  }
+  .main-content { padding: 0; }
+  .routine-timetable-container { border: none; box-shadow: none; }
+  .timetable-table th { background: #333 !important; color: white !important; }
+}

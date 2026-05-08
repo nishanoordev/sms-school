@@ -1,0 +1,158 @@
+.finance-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.finance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.fin-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+}
+
+.fin-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fin-icon.blue { background: var(--blue-50); color: var(--blue-700); }
+.fin-icon.red { background: var(--red-50); color: var(--red-700); }
+.fin-icon.green { background: var(--green-50); color: var(--green-700); }
+
+.fin-info span {
+  font-size: 13px;
+  color: var(--text-hint);
+  font-weight: 600;
+}
+
+.fin-info h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.finance-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+.section-header-fin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-box-fin {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  width: 300px;
+}
+
+.search-box-fin input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+
+.fee-student-list {
+  padding: 12px 0;
+}
+
+.fee-student-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.fee-student-item:last-child { border-bottom: none; }
+
+.fee-student-item:hover { background: var(--bg); }
+
+.fs-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fs-info strong { font-size: 15px; }
+.fs-info span { font-size: 12px; color: var(--text-hint); }
+
+.fs-status {
+  width: 140px;
+  text-align: right;
+}
+
+.rte-badge {
+  background: var(--green-100);
+  color: var(--green-800);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.fee-pending {
+  color: var(--red-700);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.fee-heads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.fee-head-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fee-head-item:last-child { border-bottom: none; }
+
+.fh-name strong { display: block; font-size: 14px; }
+.fh-name span { font-size: 11px; color: var(--text-hint); }
+
+.fh-amount {
+  font-weight: 700;
+  color: var(--green-900);
+}
+
+@media (max-width: 1024px) {
+  .finance-main-grid {
+    grid-template-columns: 1fr;
+  }
+}

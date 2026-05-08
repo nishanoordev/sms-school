@@ -1,0 +1,128 @@
+.subjects-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.subjects-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.list-controls-subjects {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-box-sub {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  width: 320px;
+}
+
+.search-box-sub input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+
+.subjects-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.subjects-table th {
+  text-align: left;
+  padding: 16px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-hint);
+  text-transform: uppercase;
+  background: var(--bg);
+}
+
+.subjects-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.sub-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sub-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--green-50);
+  color: var(--green-700);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-code {
+  background: var(--gray-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.class-tag {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.teacher-cell-sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.action-btns-sub {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn-sm-sub {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-muted);
+}
+
+.icon-btn-sm-sub.edit:hover {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-color: var(--blue-200);
+}
+
+.icon-btn-sm-sub.delete:hover {
+  background: var(--red-50);
+  color: var(--red-700);
+  border-color: var(--red-200);
+}

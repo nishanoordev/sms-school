@@ -1,0 +1,128 @@
+.notice-board-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.notice-controls {
+  padding: 24px;
+}
+
+.search-box-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  max-width: 500px;
+}
+
+.search-box-notice input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+}
+
+.notices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.notice-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.notice-card:hover { transform: translateY(-4px); }
+
+.notice-category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.notice-card.urgent { border-top: 4px solid var(--red-500); }
+.notice-card.urgent .notice-category-badge { background: var(--red-100); color: var(--red-700); }
+
+.notice-card.academic { border-top: 4px solid var(--blue-500); }
+.notice-card.academic .notice-category-badge { background: var(--blue-100); color: var(--blue-700); }
+
+.notice-card.general { border-top: 4px solid var(--green-500); }
+.notice-card.general .notice-category-badge { background: var(--green-100); color: var(--green-700); }
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.notice-header h3 { font-size: 18px; font-weight: 700; margin: 0; color: var(--text-main); }
+.pin-icon { color: var(--text-hint); opacity: 0.5; }
+
+.notice-content {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.notice-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-hint);
+  font-weight: 600;
+}
+
+.notice-date, .notice-expiry { display: flex; align-items: center; gap: 4px; }
+
+/* Modal Styles */
+.notice-modal {
+  width: 500px;
+  padding: 32px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 { font-size: 20px; font-weight: 700; margin: 0; }
+
+.form-group-notice {
+  margin-bottom: 20px;
+}
+
+.form-group-notice label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-hint);
+  cursor: pointer;
+}
