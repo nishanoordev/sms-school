@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { 
-  getGradesByStudent, 
-  addGrade 
+import {
+  getGradesByStudent,
+  addGrade
 } from '../controllers/gradeController';
 
 const router = Router();
