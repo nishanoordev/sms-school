@@ -167,6 +167,8 @@ export interface FeeReceipt {
   collectedBy: string;
 }
 
+const API_BASE_URL = 'http://192.168.1.11:5000/api';
+
 interface AppContextType {
   schoolProfile: SchoolProfile;
   students: Student[];
@@ -181,12 +183,14 @@ interface AppContextType {
   examSchedules: ExamSchedule[];
   calendarEvents: CalendarEvent[];
   feeReceipts: FeeReceipt[];
+  loading: boolean;
+  error: string | null;
   updateSchoolProfile: (profile: SchoolProfile) => void;
-  addStudent: (student: Student) => void;
-  updateStudent: (id: string, updates: Partial<Student>) => void;
-  addTeacher: (teacher: Teacher) => void;
-  updateTeacher: (id: string, updates: Partial<Teacher>) => void;
-  deleteTeacher: (id: string) => void;
+  addStudent: (student: any) => Promise<void>;
+  updateStudent: (id: string, updates: Partial<Student>) => Promise<void>;
+  addTeacher: (teacher: any) => Promise<void>;
+  updateTeacher: (id: string, updates: Partial<Teacher>) => Promise<void>;
+  deleteTeacher: (id: string) => Promise<void>;
   addClass: (cls: ClassRoom) => void;
   addSubject: (subject: Subject) => void;
   deleteSubject: (id: string) => void;
@@ -209,6 +213,9 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+  
   const [schoolProfile, setSchoolProfile] = useState<SchoolProfile>({
     name: 'Little Hearts Nursery School',
     address: '123 Education Lane',
@@ -221,33 +228,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     logo: null
   });
 
-  const [students, setStudents] = useState<Student[]>([
-    {
-      id: '1', admissionNumber: 'ADM2025001', name: 'Aarav Kumar', dob: '2021-04-15',
-      gender: 'Male', bloodGroup: 'O+', religion: 'Hindu', motherTongue: 'Hindi',
-      category: 'General', fatherName: 'Rajesh Kumar', motherName: 'Sunita Devi',
-      parentOccupation: 'Business', annualIncome: '5,00,000', parentContact: '9876543210',
-      emergencyContact: '9876543211', email: 'rajesh@example.com', address: 'House No 45, Gali 2',
-      pinCode: '110001', district: 'Central', state: 'Delhi', classId: 'Nursery', section: 'A',
-      medium: 'English', isRTE: false, status: 'Active', attendance: [], fees: [], marks: []
-    },
-    {
-      id: '2', admissionNumber: 'ADM2025002', name: 'Priya Sharma', dob: '2021-06-20',
-      gender: 'Female', bloodGroup: 'A+', religion: 'Hindu', motherTongue: 'Hindi',
-      category: 'OBC', fatherName: 'Vikas Sharma', motherName: 'Rani Sharma',
-      parentOccupation: 'Service', annualIncome: '3,50,000', parentContact: '9812345678',
-      emergencyContact: '9812345679', email: 'vikas@example.com', address: '12-B, Sector 5',
-      pinCode: '110002', district: 'West', state: 'Delhi', classId: 'LKG', section: 'A',
-      medium: 'English', isRTE: true, status: 'Active', attendance: [], fees: [], marks: []
-    }
-  ]);
-
-  const [teachers, setTeachers] = useState<Teacher[]>([
-    { id: 'T1', employeeId: 'EMP001', name: 'Ms. Anjali Singh', qualification: 'B.Ed, NTT', 
-      dateOfJoining: '2023-06-01', subjects: ['English Rhymes', 'Drawing'], contact: '9812345678',
-      email: 'anjali@school.edu', designation: 'Senior Teacher', salary: 28000 }
-  ]);
-
+  const [students, setStudents] = useState<Student[]>([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [classes, setClasses] = useState<ClassRoom[]>([
     { id: 'Playgroup', name: 'Playgroup', sections: ['A'], capacity: 20, medium: 'English' },
     { id: 'Nursery', name: 'Nursery', sections: ['A', 'B'], capacity: 25, medium: 'English' },
@@ -295,13 +277,108 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [feeReceipts, setFeeReceipts] = useState<FeeReceipt[]>([]);
 
+  // Fetch initial data
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [studentsRes, teachersRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/students`),
+          fetch(`${API_BASE_URL}/teachers`)
+        ]);
+        
+        if (!studentsRes.ok || !teachersRes.ok) throw new Error('Failed to fetch data from API');
+        
+        const studentsData = await studentsRes.json();
+        const teachersData = await teachersRes.json();
+        
+        setStudents(studentsData);
+        setTeachers(teachersData);
+        setError(null);
+      } catch (err: any) {
+        setError(err.message);
+        console.error('Error fetching data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
   // Actions
   const updateSchoolProfile = (profile: SchoolProfile) => setSchoolProfile(profile);
-  const addStudent = (student: Student) => setStudents(prev => [...prev, student]);
-  const updateStudent = (id: string, updates: Partial<Student>) => setStudents(prev => prev.map(s => s.id === id ? { ...s, ...updates } : s));
-  const addTeacher = (teacher: Teacher) => setTeachers(prev => [...prev, teacher]);
-  const updateTeacher = (id: string, updates: Partial<Teacher>) => setTeachers(prev => prev.map(t => t.id === id ? { ...t, ...updates } : t));
-  const deleteTeacher = (id: string) => setTeachers(prev => prev.filter(t => t.id !== id));
+  
+  const addStudent = async (student: any) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/students`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(student)
+      });
+      if (!res.ok) throw new Error('Failed to add student');
+      const newStudent = await res.json();
+      setStudents(prev => [...prev, newStudent]);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const updateStudent = async (id: string, updates: Partial<Student>) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/students/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+      if (!res.ok) throw new Error('Failed to update student');
+      const updatedStudent = await res.json();
+      setStudents(prev => prev.map(s => s.id === id ? updatedStudent : s));
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const addTeacher = async (teacher: any) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/teachers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(teacher)
+      });
+      if (!res.ok) throw new Error('Failed to add teacher');
+      const newTeacher = await res.json();
+      setTeachers(prev => [...prev, newTeacher]);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const updateTeacher = async (id: string, updates: Partial<Teacher>) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/teachers/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+      if (!res.ok) throw new Error('Failed to update teacher');
+      const updatedTeacher = await res.json();
+      setTeachers(prev => prev.map(t => t.id === id ? updatedTeacher : t));
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const deleteTeacher = async (id: string) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/teachers/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Failed to delete teacher');
+      setTeachers(prev => prev.filter(t => t.id !== id));
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   const addClass = (cls: ClassRoom) => setClasses(prev => [...prev, cls]);
   const addSubject = (subject: Subject) => setSubjects(prev => [...prev, subject]);
   const deleteSubject = (id: string) => setSubjects(prev => prev.filter(s => s.id !== id));
@@ -324,6 +401,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     <AppContext.Provider value={{
       schoolProfile, students, teachers, classes, subjects, notices, routines,
       leaveRequests, salaryRecords, homeworkAssignments, examSchedules, calendarEvents, feeReceipts,
+      loading, error,
       updateSchoolProfile, addStudent, updateStudent, addTeacher, updateTeacher, deleteTeacher,
       addClass, addSubject, deleteSubject, addNotice, deleteNotice, updateRoutine,
       addLeaveRequest, updateLeaveStatus, addSalaryRecord, updateSalaryStatus,

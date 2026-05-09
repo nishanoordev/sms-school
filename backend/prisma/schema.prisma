@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Student {
+  id              String   @id @default(uuid())
+  admissionNumber String   @unique
+  name            String
+  dob             DateTime
+  gender          String
+  aadhaarNumber   String?
+  bloodGroup      String
+  religion        String
+  motherTongue    String
+  category        String
+  fatherName      String
+  motherName      String
+  fatherAadhaar   String?
+  motherAadhaar   String?
+  parentContact   String
+  emergencyContact String
+  email           String?
+  address         String
+  pinCode         String
+  district        String
+  state           String
+  classId         String
+  section         String
+  medium          String
+  isRTE           Boolean  @default(false)
+  status          String   @default("Active")
+  
+  attendance      Attendance[]
+  grades          Grade[]
+  fees            Fee[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Teacher {
+  id              String   @id @default(uuid())
+  employeeId      String   @unique
+  name            String
+  qualification   String
+  dateOfJoining   DateTime
+  assignedClass   String?
+  subjects        String[]
+  contact         String
+  email           String?
+  aadhaar         String?
+  salary          Float?
+  designation     String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Attendance {
+  id        String   @id @default(uuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  date      DateTime
+  status    String   // Present, Absent, Late, Half-Day
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, date])
+}
+
+model Grade {
+  id        String   @id @default(uuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  term      String
+  subject   String
+  mark      String   // Excellent, Good, Satisfactory, Needs Improvement
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Fee {
+  id          String   @id @default(uuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id])
+  head        String
+  amount      Float
+  paid        Boolean  @default(false)
+  receiptNo   String?
+  paidDate    DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
