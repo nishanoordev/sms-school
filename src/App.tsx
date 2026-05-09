@@ -37,17 +37,24 @@ const AppContent = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="error-screen">
-        <h2>Connection Error</h2>
-        <p>{error}</p>
-        <button onClick={() => window.location.reload()}>Retry</button>
-      </div>
-    );
-  }
-
+  // Don't block the whole app — show a banner instead
   return (
+    <>
+      {error && (
+        <div style={{
+          background: '#fef2f2', color: '#991b1b', padding: '10px 20px',
+          textAlign: 'center', fontSize: '13px', fontWeight: 600,
+          borderBottom: '1px solid #fecaca', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', gap: '12px'
+        }}>
+          ⚠️ Backend API offline — showing cached data.
+          <button
+            onClick={() => window.location.reload()}
+            style={{ background: '#dc2626', color: 'white', border: 'none', borderRadius: '6px', padding: '4px 12px', cursor: 'pointer', fontSize: '12px' }}
+          >Retry</button>
+        </div>
+      )}
+
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Dashboard />} />
@@ -71,6 +78,7 @@ const AppContent = () => {
         <Route path="*" element={<Dashboard />} />
       </Route>
     </Routes>
+    </>
   );
 };
 

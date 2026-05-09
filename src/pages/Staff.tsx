@@ -8,8 +8,10 @@ const Staff = () => {
   const { teachers, addTeacher, deleteTeacher } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState('');
   const [form, setForm] = useState({
-    name: '', qualification: '', designation: 'Teacher', dateOfJoining: '', 
+    name: '', qualification: '', designation: 'Teacher', dateOfJoining: '',
     contact: '', email: '', salary: '', subjects: ''
   });
 
@@ -18,22 +20,29 @@ const Staff = () => {
     t.qualification.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleAdd = (e: React.FormEvent) => {
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    addTeacher({
-      id: Math.random().toString(36).substr(2, 9),
-      employeeId: `EMP${String(teachers.length + 1).padStart(3, '0')}`,
-      name: form.name,
-      qualification: form.qualification,
-      designation: form.designation,
-      dateOfJoining: form.dateOfJoining,
-      contact: form.contact,
-      email: form.email,
-      salary: Number(form.salary),
-      subjects: form.subjects.split(',').map(s => s.trim()).filter(Boolean)
-    });
-    setForm({ name: '', qualification: '', designation: 'Teacher', dateOfJoining: '', contact: '', email: '', salary: '', subjects: '' });
-    setShowForm(false);
+    setSaving(true);
+    setFormError('');
+    try {
+      await addTeacher({
+        employeeId: `EMP${String(teachers.length + 1).padStart(3, '0')}`,
+        name: form.name,
+        qualification: form.qualification,
+        designation: form.designation,
+        dateOfJoining: form.dateOfJoining || new Date().toISOString().split('T')[0],
+        contact: form.contact,
+        email: form.email || null,
+        salary: form.salary ? Number(form.salary) : null,
+        subjects: form.subjects.split(',').map(s => s.trim()).filter(Boolean)
+      });
+      setForm({ name: '', qualification: '', designation: 'Teacher', dateOfJoining: '', contact: '', email: '', salary: '', subjects: '' });
+      setShowForm(false);
+    } catch (err: any) {
+      setFormError('Failed to save teacher. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -116,9 +125,12 @@ const Staff = () => {
                 <div className="form-field"><label>Monthly Salary (₹)</label><input type="number" placeholder="e.g. 25000" value={form.salary} onChange={e => setForm({...form, salary: e.target.value})} /></div>
                 <div className="form-field"><label>Subjects (comma-separated)</label><input type="text" placeholder="English, Drawing, Hindi" value={form.subjects} onChange={e => setForm({...form, subjects: e.target.value})} /></div>
               </div>
+              {formError && <p style={{ color: '#dc2626', fontSize: '13px', margin: '0' }}>{formError}</p>}
               <div className="modal-footer">
-                <button type="button" className="secondary-btn" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="primary-btn">Register Teacher</button>
+                <button type="button" className="secondary-btn" onClick={() => setShowForm(false)} disabled={saving}>Cancel</button>
+                <button type="submit" className="primary-btn" disabled={saving}>
+                  {saving ? 'Saving...' : 'Register Teacher'}
+                </button>
               </div>
             </form>
           </motion.div>

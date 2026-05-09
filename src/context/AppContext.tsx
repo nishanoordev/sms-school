@@ -167,7 +167,7 @@ export interface FeeReceipt {
   collectedBy: string;
 }
 
-const API_BASE_URL = 'http://192.168.1.11:5000/api';
+const API_BASE_URL = 'http://localhost:3001/api';
 
 interface AppContextType {
   schoolProfile: SchoolProfile;
@@ -185,12 +185,14 @@ interface AppContextType {
   feeReceipts: FeeReceipt[];
   loading: boolean;
   error: string | null;
+  attendanceRecords: { studentId: string; date: string; status: string }[];
   updateSchoolProfile: (profile: SchoolProfile) => void;
   addStudent: (student: any) => Promise<void>;
   updateStudent: (id: string, updates: Partial<Student>) => Promise<void>;
   addTeacher: (teacher: any) => Promise<void>;
   updateTeacher: (id: string, updates: Partial<Teacher>) => Promise<void>;
   deleteTeacher: (id: string) => Promise<void>;
+  markAttendance: (studentId: string, date: string, status: string) => Promise<void>;
   addClass: (cls: ClassRoom) => void;
   addSubject: (subject: Subject) => void;
   deleteSubject: (id: string) => void;
@@ -215,6 +217,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [attendanceRecords, setAttendanceRecords] = React.useState<{ studentId: string; date: string; status: string }[]>([]);
   
   const [schoolProfile, setSchoolProfile] = useState<SchoolProfile>({
     name: 'Little Hearts Nursery School',
@@ -282,27 +285,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [studentsRes, teachersRes] = await Promise.all([
+        const [studentsRes, teachersRes, attendanceRes] = await Promise.all([
           fetch(`${API_BASE_URL}/students`),
-          fetch(`${API_BASE_URL}/teachers`)
+          fetch(`${API_BASE_URL}/teachers`),
+          fetch(`${API_BASE_URL}/attendance`)
         ]);
-        
-        if (!studentsRes.ok || !teachersRes.ok) throw new Error('Failed to fetch data from API');
-        
-        const studentsData = await studentsRes.json();
-        const teachersData = await teachersRes.json();
-        
-        setStudents(studentsData);
-        setTeachers(teachersData);
+
+        if (studentsRes.ok) setStudents(await studentsRes.json());
+        if (teachersRes.ok) setTeachers(await teachersRes.json());
+        if (attendanceRes.ok) setAttendanceRecords(await attendanceRes.json());
         setError(null);
       } catch (err: any) {
+        // Don't block the whole app — just log the error
+        console.error('API connection error:', err);
         setError(err.message);
-        console.error('Error fetching data:', err);
       } finally {
         setLoading(false);
       }
     };
-    
     fetchData();
   }, []);
 
@@ -379,6 +379,25 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Bug fix: Proper attendance marking via API
+  const markAttendance = async (studentId: string, date: string, status: string) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/attendance`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentId, date, status })
+      });
+      if (!res.ok) throw new Error('Failed to mark attendance');
+      const record = await res.json();
+      setAttendanceRecords(prev => {
+        const filtered = prev.filter(r => !(r.studentId === studentId && r.date.startsWith(date)));
+        return [...filtered, record];
+      });
+    } catch (err: any) {
+      console.error('Attendance error:', err);
+    }
+  };
+
   const addClass = (cls: ClassRoom) => setClasses(prev => [...prev, cls]);
   const addSubject = (subject: Subject) => setSubjects(prev => [...prev, subject]);
   const deleteSubject = (id: string) => setSubjects(prev => prev.filter(s => s.id !== id));
@@ -401,8 +420,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     <AppContext.Provider value={{
       schoolProfile, students, teachers, classes, subjects, notices, routines,
       leaveRequests, salaryRecords, homeworkAssignments, examSchedules, calendarEvents, feeReceipts,
-      loading, error,
+      loading, error, attendanceRecords,
       updateSchoolProfile, addStudent, updateStudent, addTeacher, updateTeacher, deleteTeacher,
+      markAttendance,
       addClass, addSubject, deleteSubject, addNotice, deleteNotice, updateRoutine,
       addLeaveRequest, updateLeaveStatus, addSalaryRecord, updateSalaryStatus,
       addHomework, deleteHomework, addExam, deleteExam,

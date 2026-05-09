@@ -30,6 +30,8 @@ const Admission = () => {
   const { classes, addStudent, students } = useApp();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const nextAdmNo = `ADM2025${(students.length + 1).toString().padStart(3, '0')}`;
 
@@ -76,26 +78,25 @@ const Admission = () => {
   };
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 0));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newStudent = {
-      ...formData,
-      id: Math.random().toString(36).substr(2, 9),
-      admissionNumber: nextAdmNo,
-      status: 'Active' as const,
-      attendance: [],
-      fees: [],
-      marks: [],
-      documents: {
-        studentPhoto: documents.studentPhoto ? documents.studentPhoto.name : null,
-        birthCertificate: documents.birthCertificate ? documents.birthCertificate.name : null,
-        studentAadhaar: documents.studentAadhaar ? documents.studentAadhaar.name : null,
-        parentAadhaar: documents.parentAadhaar ? documents.parentAadhaar.name : null,
-        voterId: documents.voterId ? documents.voterId.name : null,
-      }
-    } as any;
-    addStudent(newStudent);
-    setIsSubmitted(true);
+    setIsSaving(true);
+    setSubmitError('');
+    try {
+      await addStudent({
+        ...formData,
+        admissionNumber: nextAdmNo,
+        status: 'Active',
+        attendance: [],
+        fees: [],
+        marks: [],
+      });
+      setIsSubmitted(true);
+    } catch (err: any) {
+      setSubmitError('Failed to save admission. Please check your connection.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -309,11 +310,14 @@ const Admission = () => {
           <form onSubmit={handleSubmit}>
             <div className="form-body-v2">{renderStepContent()}</div>
             <div className="form-footer-v2">
-              <button type="button" className="prev-btn" disabled={currentStep === 0} onClick={prevStep}><ArrowLeft size={18} /> Back</button>
+              <button type="button" className="prev-btn" disabled={currentStep === 0 || isSaving} onClick={prevStep}><ArrowLeft size={18} /> Back</button>
+              {submitError && <p style={{ color: '#dc2626', fontSize: '13px', margin: '0 auto' }}>{submitError}</p>}
               {currentStep < steps.length - 1 ? (
                 <button type="button" className="next-btn primary-btn" onClick={nextStep}>Next <ArrowRight size={18} /></button>
               ) : (
-                <button type="submit" className="submit-btn primary-btn">Confirm Admission <CheckCircle2 size={18} /></button>
+                <button type="submit" className="submit-btn primary-btn" disabled={isSaving}>
+                  {isSaving ? 'Saving...' : <><CheckCircle2 size={18} /> Confirm Admission</>}
+                </button>
               )}
             </div>
           </form>
