@@ -1,5 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file
 
 generator client {
   provider = "prisma-client-js"
@@ -20,57 +19,54 @@ model User {
 }
 
 model Student {
-  id              String   @id @default(uuid())
-  admissionNumber String   @unique
-  name            String
-  dob             DateTime
-  gender          String
-  aadhaarNumber   String?
-  bloodGroup      String
-  religion        String
-  motherTongue    String
-  category        String
-  fatherName      String
-  motherName      String
-  fatherAadhaar   String?
-  motherAadhaar   String?
-  parentContact   String
+  id               String       @id @default(uuid())
+  admissionNumber  String       @unique
+  name             String
+  dob              DateTime
+  gender           String
+  aadhaarNumber    String?
+  bloodGroup       String
+  religion         String
+  motherTongue     String
+  category         String
+  fatherName       String
+  motherName       String
+  fatherAadhaar    String?
+  motherAadhaar    String?
+  parentContact    String
   emergencyContact String
-  email           String?
-  address         String
-  pinCode         String
-  district        String
-  state           String
-  classId         String
-  section         String
-  medium          String
-  isRTE           Boolean  @default(false)
-  status          String   @default("Active")
-  
-  attendance      Attendance[]
-  grades          Grade[]
-  fees            Fee[]
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  email            String?
+  address          String
+  pinCode          String
+  district         String
+  state            String
+  classId          String
+  section          String
+  medium           String
+  isRTE            Boolean      @default(false)
+  status           String       @default("Active")
+  attendance       Attendance[]
+  grades           Grade[]
+  fees             Fee[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }
 
 model Teacher {
-  id              String   @id @default(uuid())
-  employeeId      String   @unique
-  name            String
-  qualification   String
-  dateOfJoining   DateTime
-  assignedClass   String?
-  subjects        String[]
-  contact         String
-  email           String?
-  aadhaar         String?
-  salary          Float?
-  designation     String?
-
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id            String   @id @default(uuid())
+  employeeId    String   @unique
+  name          String
+  qualification String
+  dateOfJoining DateTime
+  assignedClass String?
+  subjects      String[]
+  contact       String
+  email         String?
+  aadhaar       String?
+  salary        Float?
+  designation   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Attendance {
@@ -78,8 +74,7 @@ model Attendance {
   studentId String
   student   Student  @relation(fields: [studentId], references: [id])
   date      DateTime
-  status    String   // Present, Absent, Late, Half-Day
-  
+  status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -92,22 +87,134 @@ model Grade {
   student   Student  @relation(fields: [studentId], references: [id])
   term      String
   subject   String
-  mark      String   // Excellent, Good, Satisfactory, Needs Improvement
-  
+  mark      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Fee {
+  id        String    @id @default(uuid())
+  studentId String
+  student   Student   @relation(fields: [studentId], references: [id])
+  head      String
+  amount    Float
+  paid      Boolean   @default(false)
+  receiptNo String?
+  paidDate  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Notice {
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  category   String
+  date       String
+  expiryDate String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model LeaveRequest {
   id          String   @id @default(uuid())
-  studentId   String
-  student     Student  @relation(fields: [studentId], references: [id])
-  head        String
-  amount      Float
-  paid        Boolean  @default(false)
-  receiptNo   String?
-  paidDate    DateTime?
-  
+  staffId     String
+  staffName   String
+  type        String
+  fromDate    String
+  toDate      String
+  reason      String
+  status      String   @default("Pending")
+  appliedDate String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model SalaryRecord {
+  id          String   @id @default(uuid())
+  staffId     String
+  staffName   String
+  month       String
+  basicSalary Float
+  allowances  Float
+  deductions  Float
+  netSalary   Float
+  status      String   @default("Pending")
+  paidDate    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Homework {
+  id           String   @id @default(uuid())
+  classId      String
+  subjectName  String
+  title        String
+  description  String
+  assignedDate String
+  dueDate      String
+  teacherName  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ExamSchedule {
+  id          String   @id @default(uuid())
+  examName    String
+  classId     String
+  subjectName String
+  date        String
+  startTime   String
+  endTime     String
+  venue       String
+  totalMarks  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CalendarEvent {
+  id          String   @id @default(uuid())
+  title       String
+  date        String
+  type        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FeeReceipt {
+  id              String   @id @default(uuid())
+  receiptNo       String   @unique
+  studentId       String
+  studentName     String
+  admissionNumber String
+  classId         String
+  feeHead         String
+  amount          Float
+  paymentMode     String
+  date            String
+  collectedBy     String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Subject {
+  id        String   @id @default(uuid())
+  name      String
+  code      String
+  classId   String
+  teacherId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ClassRoom {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  sections       String[]
+  capacity       Int
+  classTeacherId String?
+  medium         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

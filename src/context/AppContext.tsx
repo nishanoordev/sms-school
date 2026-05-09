@@ -233,71 +233,52 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [students, setStudents] = useState<Student[]>([]);
   const [teachers, setTeachers] = useState<Teacher[]>([]);
+  // Default classes — seeded from DB or fallback
   const [classes, setClasses] = useState<ClassRoom[]>([
     { id: 'Playgroup', name: 'Playgroup', sections: ['A'], capacity: 20, medium: 'English' },
-    { id: 'Nursery', name: 'Nursery', sections: ['A', 'B'], capacity: 25, medium: 'English' },
-    { id: 'LKG', name: 'LKG', sections: ['A'], capacity: 30, medium: 'English' },
-    { id: 'UKG', name: 'UKG', sections: ['A'], capacity: 30, medium: 'English' },
+    { id: 'Nursery',   name: 'Nursery',   sections: ['A', 'B'], capacity: 25, medium: 'English' },
+    { id: 'LKG',       name: 'LKG',       sections: ['A'], capacity: 30, medium: 'English' },
+    { id: 'UKG',       name: 'UKG',       sections: ['A'], capacity: 30, medium: 'English' },
   ]);
+  const [subjects, setSubjects]                     = useState<Subject[]>([]);
+  const [notices, setNotices]                       = useState<Notice[]>([]);
+  const [routines, setRoutines]                     = useState<Record<string, RoutineSlot[]>>({});
+  const [leaveRequests, setLeaveRequests]           = useState<LeaveRequest[]>([]);
+  const [salaryRecords, setSalaryRecords]           = useState<SalaryRecord[]>([]);
+  const [homeworkAssignments, setHomeworkAssignments] = useState<HomeworkAssignment[]>([]);
+  const [examSchedules, setExamSchedules]           = useState<ExamSchedule[]>([]);
+  const [calendarEvents, setCalendarEvents]         = useState<CalendarEvent[]>([]);
+  const [feeReceipts, setFeeReceipts]               = useState<FeeReceipt[]>([]);
 
-  const [subjects, setSubjects] = useState<Subject[]>([
-    { id: 'S1', name: 'English Rhymes', code: 'ENG-R', classId: 'Nursery', teacherId: 'T1' },
-    { id: 'S2', name: 'Drawing & Craft', code: 'DRW', classId: 'Nursery', teacherId: 'T1' },
-    { id: 'S3', name: 'Story Time', code: 'STR', classId: 'LKG', teacherId: 'T1' },
-  ]);
 
-  const [notices, setNotices] = useState<Notice[]>([
-    { id: 'N1', title: 'PTM Meeting — Term 1', content: 'Parent-Teacher Meeting for all classes on Saturday 10am.', category: 'Academic', date: '2025-05-10', expiryDate: '2025-05-11' },
-    { id: 'N2', title: 'Summer Holidays', content: 'School will remain closed from May 20 to June 15.', category: 'General', date: '2025-05-08', expiryDate: '2025-05-20' }
-  ]);
-
-  const [routines, setRoutines] = useState<Record<string, RoutineSlot[]>>({});
-
-  const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([
-    { id: 'L1', staffId: 'T1', staffName: 'Ms. Anjali Singh', type: 'Sick Leave', fromDate: '2025-05-12', toDate: '2025-05-13', reason: 'Fever and cold', status: 'Pending', appliedDate: '2025-05-10' }
-  ]);
-
-  const [salaryRecords, setSalaryRecords] = useState<SalaryRecord[]>([
-    { id: 'SAL1', staffId: 'T1', staffName: 'Ms. Anjali Singh', month: 'April 2025', basicSalary: 25000, allowances: 3000, deductions: 500, netSalary: 27500, status: 'Paid', paidDate: '2025-05-01' }
-  ]);
-
-  const [homeworkAssignments, setHomeworkAssignments] = useState<HomeworkAssignment[]>([
-    { id: 'HW1', classId: 'Nursery', subjectName: 'English Rhymes', title: 'Learn Twinkle Twinkle', description: 'Practice the rhyme at home and recite it tomorrow.', assignedDate: '2025-05-08', dueDate: '2025-05-09', teacherName: 'Ms. Anjali Singh' }
-  ]);
-
-  const [examSchedules, setExamSchedules] = useState<ExamSchedule[]>([
-    { id: 'EX1', examName: 'Term 1 Assessment', classId: 'Nursery', subjectName: 'English Rhymes', date: '2025-06-15', startTime: '09:00', endTime: '10:00', venue: 'Classroom A', totalMarks: 50 },
-    { id: 'EX2', examName: 'Term 1 Assessment', classId: 'LKG', subjectName: 'Story Time', date: '2025-06-16', startTime: '09:00', endTime: '10:00', venue: 'Classroom B', totalMarks: 50 }
-  ]);
-
-  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([
-    { id: 'EV1', title: 'Independence Day', date: '2025-08-15', type: 'Holiday', description: 'National Holiday' },
-    { id: 'EV2', title: 'Annual Sports Day', date: '2025-09-05', type: 'Event', description: 'Annual sports and games event for all students' },
-    { id: 'EV3', title: 'Term 1 Exams Begin', date: '2025-06-15', type: 'Exam', description: 'First term examinations start' },
-    { id: 'EV4', title: 'Parent-Teacher Meeting', date: '2025-05-10', type: 'PTM', description: 'PTM for all classes' },
-    { id: 'EV5', title: 'Summer Holidays Begin', date: '2025-05-20', type: 'Holiday', description: 'School closed for summer' },
-  ]);
-
-  const [feeReceipts, setFeeReceipts] = useState<FeeReceipt[]>([]);
-
-  // Fetch initial data
+  // Fetch ALL data from API on load
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [studentsRes, teachersRes, attendanceRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/students`),
-          fetch(`${API_BASE_URL}/teachers`),
-          fetch(`${API_BASE_URL}/attendance`)
-        ]);
-
-        if (studentsRes.ok) setStudents(await studentsRes.json());
-        if (teachersRes.ok) setTeachers(await teachersRes.json());
-        if (attendanceRes.ok) setAttendanceRecords(await attendanceRes.json());
+        const endpoints = [
+          'students', 'teachers', 'attendance', 'notices',
+          'leave', 'salary', 'homework', 'exams',
+          'calendar', 'fees', 'subjects'
+        ];
+        const results = await Promise.allSettled(
+          endpoints.map(ep => fetch(`${API_BASE_URL}/${ep}`).then(r => r.ok ? r.json() : []))
+        );
+        const getValue = (i: number) => results[i].status === 'fulfilled' ? results[i].value : [];
+        setStudents(getValue(0));
+        setTeachers(getValue(1));
+        setAttendanceRecords(getValue(2));
+        setNotices(getValue(3));
+        setLeaveRequests(getValue(4));
+        setSalaryRecords(getValue(5));
+        setHomeworkAssignments(getValue(6));
+        setExamSchedules(getValue(7));
+        setCalendarEvents(getValue(8));
+        setFeeReceipts(getValue(9));
+        setSubjects(getValue(10));
         setError(null);
       } catch (err: any) {
-        // Don't block the whole app — just log the error
-        console.error('API connection error:', err);
+        console.error('API error:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -306,9 +287,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, []);
 
-  // Actions
-  const updateSchoolProfile = (profile: SchoolProfile) => setSchoolProfile(profile);
-  
+
   const addStudent = async (student: any) => {
     try {
       const res = await fetch(`${API_BASE_URL}/students`, {
@@ -398,23 +377,154 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const addClass = (cls: ClassRoom) => setClasses(prev => [...prev, cls]);
-  const addSubject = (subject: Subject) => setSubjects(prev => [...prev, subject]);
-  const deleteSubject = (id: string) => setSubjects(prev => prev.filter(s => s.id !== id));
-  const addNotice = (notice: Notice) => setNotices(prev => [...prev, notice]);
-  const deleteNotice = (id: string) => setNotices(prev => prev.filter(n => n.id !== id));
+  const addClass = async (cls: ClassRoom) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/classes`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(cls)
+      });
+      const newCls = res.ok ? await res.json() : cls;
+      setClasses(prev => [...prev, newCls]);
+    } catch { setClasses(prev => [...prev, cls]); }
+  };
+
+  const addSubject = async (subject: Subject) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/subjects`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(subject)
+      });
+      const newSub = res.ok ? await res.json() : subject;
+      setSubjects(prev => [...prev, newSub]);
+    } catch { setSubjects(prev => [...prev, subject]); }
+  };
+
+  const deleteSubject = async (id: string) => {
+    try {
+      await fetch(`${API_BASE_URL}/subjects/${id}`, { method: 'DELETE' });
+      setSubjects(prev => prev.filter(s => s.id !== id));
+    } catch { setSubjects(prev => prev.filter(s => s.id !== id)); }
+  };
+
+  const addNotice = async (notice: Notice) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/notices`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(notice)
+      });
+      const newNotice = res.ok ? await res.json() : notice;
+      setNotices(prev => [...prev, newNotice]);
+    } catch { setNotices(prev => [...prev, notice]); }
+  };
+
+  const deleteNotice = async (id: string) => {
+    try {
+      await fetch(`${API_BASE_URL}/notices/${id}`, { method: 'DELETE' });
+      setNotices(prev => prev.filter(n => n.id !== id));
+    } catch { setNotices(prev => prev.filter(n => n.id !== id)); }
+  };
+
   const updateRoutine = (key: string, slots: RoutineSlot[]) => setRoutines(prev => ({ ...prev, [key]: slots }));
-  const addLeaveRequest = (req: LeaveRequest) => setLeaveRequests(prev => [...prev, req]);
-  const updateLeaveStatus = (id: string, status: 'Approved' | 'Rejected') => setLeaveRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r));
-  const addSalaryRecord = (rec: SalaryRecord) => setSalaryRecords(prev => [...prev, rec]);
-  const updateSalaryStatus = (id: string, status: 'Paid', paidDate: string) => setSalaryRecords(prev => prev.map(r => r.id === id ? { ...r, status, paidDate } : r));
-  const addHomework = (hw: HomeworkAssignment) => setHomeworkAssignments(prev => [...prev, hw]);
-  const deleteHomework = (id: string) => setHomeworkAssignments(prev => prev.filter(h => h.id !== id));
-  const addExam = (exam: ExamSchedule) => setExamSchedules(prev => [...prev, exam]);
-  const deleteExam = (id: string) => setExamSchedules(prev => prev.filter(e => e.id !== id));
-  const addCalendarEvent = (event: CalendarEvent) => setCalendarEvents(prev => [...prev, event]);
-  const deleteCalendarEvent = (id: string) => setCalendarEvents(prev => prev.filter(e => e.id !== id));
-  const addFeeReceipt = (receipt: FeeReceipt) => setFeeReceipts(prev => [...prev, receipt]);
+
+  const addLeaveRequest = async (req: LeaveRequest) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/leave`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(req)
+      });
+      const newReq = res.ok ? await res.json() : req;
+      setLeaveRequests(prev => [...prev, newReq]);
+    } catch { setLeaveRequests(prev => [...prev, req]); }
+  };
+
+  const updateLeaveStatus = async (id: string, status: 'Approved' | 'Rejected') => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/leave/${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status })
+      });
+      const updated = res.ok ? await res.json() : null;
+      setLeaveRequests(prev => prev.map(r => r.id === id ? (updated || { ...r, status }) : r));
+    } catch { setLeaveRequests(prev => prev.map(r => r.id === id ? { ...r, status } : r)); }
+  };
+
+  const addSalaryRecord = async (rec: SalaryRecord) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/salary`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(rec)
+      });
+      const newRec = res.ok ? await res.json() : rec;
+      setSalaryRecords(prev => [...prev, newRec]);
+    } catch { setSalaryRecords(prev => [...prev, rec]); }
+  };
+
+  const updateSalaryStatus = async (id: string, status: 'Paid', paidDate: string) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/salary/${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status, paidDate })
+      });
+      const updated = res.ok ? await res.json() : null;
+      setSalaryRecords(prev => prev.map(r => r.id === id ? (updated || { ...r, status, paidDate }) : r));
+    } catch { setSalaryRecords(prev => prev.map(r => r.id === id ? { ...r, status, paidDate } : r)); }
+  };
+
+  const addHomework = async (hw: HomeworkAssignment) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/homework`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(hw)
+      });
+      const newHw = res.ok ? await res.json() : hw;
+      setHomeworkAssignments(prev => [...prev, newHw]);
+    } catch { setHomeworkAssignments(prev => [...prev, hw]); }
+  };
+
+  const deleteHomework = async (id: string) => {
+    try {
+      await fetch(`${API_BASE_URL}/homework/${id}`, { method: 'DELETE' });
+      setHomeworkAssignments(prev => prev.filter(h => h.id !== id));
+    } catch { setHomeworkAssignments(prev => prev.filter(h => h.id !== id)); }
+  };
+
+  const addExam = async (exam: ExamSchedule) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/exams`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(exam)
+      });
+      const newExam = res.ok ? await res.json() : exam;
+      setExamSchedules(prev => [...prev, newExam]);
+    } catch { setExamSchedules(prev => [...prev, exam]); }
+  };
+
+  const deleteExam = async (id: string) => {
+    try {
+      await fetch(`${API_BASE_URL}/exams/${id}`, { method: 'DELETE' });
+      setExamSchedules(prev => prev.filter(e => e.id !== id));
+    } catch { setExamSchedules(prev => prev.filter(e => e.id !== id)); }
+  };
+
+  const addCalendarEvent = async (event: CalendarEvent) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/calendar`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(event)
+      });
+      const newEvent = res.ok ? await res.json() : event;
+      setCalendarEvents(prev => [...prev, newEvent]);
+    } catch { setCalendarEvents(prev => [...prev, event]); }
+  };
+
+  const deleteCalendarEvent = async (id: string) => {
+    try {
+      await fetch(`${API_BASE_URL}/calendar/${id}`, { method: 'DELETE' });
+      setCalendarEvents(prev => prev.filter(e => e.id !== id));
+    } catch { setCalendarEvents(prev => prev.filter(e => e.id !== id)); }
+  };
+
+  const addFeeReceipt = async (receipt: FeeReceipt) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/fees`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(receipt)
+      });
+      const newReceipt = res.ok ? await res.json() : receipt;
+      setFeeReceipts(prev => [...prev, newReceipt]);
+    } catch { setFeeReceipts(prev => [...prev, receipt]); }
+  };
+
+  const updateSchoolProfile = (profile: SchoolProfile) => setSchoolProfile(profile);
 
   return (
     <AppContext.Provider value={{
