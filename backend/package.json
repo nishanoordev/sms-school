@@ -1,5 +1,5 @@
 {
-  "name": "school-management-backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "Backend API for School Management System",
   "main": "dist/index.js",
@@ -14,7 +14,10 @@
     "@prisma/client": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "next": "^16.2.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

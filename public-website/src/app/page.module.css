@@ -1,0 +1,128 @@
+.welcomeSection {
+  background-color: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcomeSection::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background-color: var(--primary-light);
+  opacity: 0.1;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.welcomeText {
+  position: relative;
+  z-index: 1;
+}
+
+.principalInfo {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--primary-color);
+}
+
+.welcomeImgWrapper {
+  position: relative;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.imgDecor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 80%;
+  background-color: var(--primary-color);
+  border-radius: var(--radius-lg);
+  z-index: -1;
+}
+
+.welcomeImg {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  object-fit: cover;
+}
+
+.noticeCard {
+  display: flex;
+  background: var(--bg-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  border: 1px solid var(--border-color);
+}
+
+.noticeCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.noticeDate {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.dateDay {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.dateMonth {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.noticeContent {
+  padding: 1.5rem;
+}
+
+.noticeContent h4 {
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.noticeContent p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.ctaSection {
+  background: linear-gradient(135deg, var(--secondary-color), var(--secondary-dark));
+  padding: 5rem 0;
+  position: relative;
+}
+
+.ctaSection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
