@@ -24,6 +24,19 @@ export const createGalleryItem = async (req: Request, res: Response) => {
   }
 };
 
+export const updateGalleryItem = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const item = await prisma.galleryItem.update({
+      where: { id },
+      data: req.body
+    });
+    res.json(item);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const deleteGalleryItem = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

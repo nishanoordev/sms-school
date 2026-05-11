@@ -25,6 +25,7 @@ import Gallery from './pages/Gallery';
 import Messages from './pages/Messages';
 import Promotion from './pages/Promotion';
 import CalendarEvents from './pages/CalendarEvents';
+import Notifications from './pages/Notifications';
 import './App.css';
 
 
@@ -85,7 +86,8 @@ const AppContent = () => {
         <Route path="gallery" element={<Gallery />} />
         <Route path="messages" element={<Messages />} />
         <Route path="promote" element={<Promotion />} />
-        <Route path="notifications" element={<CalendarEvents />} />
+        <Route path="notifications" element={<Notifications />} />
+        <Route path="calendar-events" element={<CalendarEvents />} />
         <Route path="*" element={<Dashboard />} />
 
 

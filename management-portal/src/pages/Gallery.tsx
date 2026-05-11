@@ -15,6 +15,7 @@ const Gallery: React.FC = () => {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [newItem, setNewItem] = useState({
     title: '',
     imageUrl: '',
@@ -42,22 +43,37 @@ const Gallery: React.FC = () => {
     }
   };
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/gallery', {
-        method: 'POST',
+      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId ? `/api/gallery/${editingId}` : '/api/gallery';
+      
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newItem)
       });
       if (response.ok) {
         setShowModal(false);
+        setEditingId(null);
         setNewItem({ title: '', imageUrl: '', category: 'Event', description: '' });
         fetchItems();
       }
     } catch (error) {
-      console.error('Error creating gallery item:', error);
+      console.error('Error saving gallery item:', error);
     }
+  };
+
+  const handleEdit = (item: GalleryItem) => {
+    setNewItem({
+      title: item.title,
+      imageUrl: item.imageUrl,
+      category: item.category,
+      description: item.description
+    });
+    setEditingId(item.id);
+    setShowModal(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -84,7 +100,7 @@ const Gallery: React.FC = () => {
           <h1>School Gallery</h1>
           <p>Manage photos for the public website</p>
         </div>
-        <button className="add-btn" onClick={() => setShowModal(true)}>
+        <button className="add-btn" onClick={() => { setEditingId(null); setNewItem({ title: '', imageUrl: '', category: 'Event', description: '' }); setShowModal(true); }}>
           <Plus size={20} />
           <span>Add Photo</span>
         </button>
@@ -122,6 +138,9 @@ const Gallery: React.FC = () => {
               <div className="card-image">
                 <img src={item.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'} alt={item.title} />
                 <div className="card-actions">
+                  <button className="edit-icon" onClick={() => handleEdit(item)} style={{ marginRight: '8px' }}>
+                    <Plus size={18} style={{ transform: 'rotate(45deg)' }} />
+                  </button>
                   <button className="delete-icon" onClick={() => handleDelete(item.id)}>
                     <Trash2 size={18} />
                   </button>
@@ -148,10 +167,10 @@ const Gallery: React.FC = () => {
         <div className="modal-overlay">
           <div className="modal-content glass">
             <div className="modal-header">
-              <h2>Add New Photo</h2>
+              <h2>{editingId ? 'Edit Photo' : 'Add New Photo'}</h2>
               <button className="close-btn" onClick={() => setShowModal(false)}>&times;</button>
             </div>
-            <form onSubmit={handleCreate}>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Photo Title</label>
                 <input 
@@ -194,7 +213,7 @@ const Gallery: React.FC = () => {
               </div>
               <div className="modal-footer">
                 <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>Cancel</button>
-                <button type="submit" className="submit-btn">Save Photo</button>
+                <button type="submit" className="submit-btn">{editingId ? 'Update Photo' : 'Save Photo'}</button>
               </div>
             </form>
           </div>

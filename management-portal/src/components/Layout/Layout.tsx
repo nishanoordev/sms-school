@@ -45,7 +45,8 @@ const navGroups = [
     items: [
       { path: '/finance', icon: <Wallet size={18} />, label: 'Fee Management' },
       { path: '/communication', icon: <Bell size={18} />, label: 'Notice Board' },
-      { path: '/notifications', icon: <Bell size={18} />, label: 'Notifications & Calendar' },
+      { path: '/notifications', icon: <Bell size={18} />, label: 'Push Notifications' },
+      { path: '/calendar-events', icon: <CalendarDays size={18} />, label: 'Calendar Events' },
       { path: '/gallery', icon: <Image size={18} />, label: 'Photo Gallery' },
       { path: '/messages', icon: <Mail size={18} />, label: 'Website Inquiries' },
       { path: '/calendar', icon: <Calendar size={18} />, label: 'School Calendar' },

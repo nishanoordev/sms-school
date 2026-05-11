@@ -21,6 +21,7 @@ import galleryRoutes from './routes/galleryRoutes';
 import contactRoutes from './routes/contactRoutes';
 import promotionRoutes from './routes/promotionRoutes';
 import calendarEventsRoutes from './routes/calendarEventsRoutes';
+import pushNotificationRoutes from './routes/pushNotificationRoutes';
 
 
 
@@ -60,6 +61,7 @@ app.use('/api/gallery',     galleryRoutes);
 app.use('/api/contact',     contactRoutes);
 app.use('/api/promote',     promotionRoutes);
 app.use('/api/calendar-events', calendarEventsRoutes);
+app.use('/api/notifications', pushNotificationRoutes);
 
 
 

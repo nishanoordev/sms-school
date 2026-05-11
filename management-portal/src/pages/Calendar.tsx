@@ -10,11 +10,12 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const SchoolCalendar = () => {
-  const { calendarEvents, addCalendarEvent, deleteCalendarEvent } = useApp();
+  const { calendarEvents, addCalendarEvent, updateCalendarEvent, deleteCalendarEvent } = useApp();
   const today = new Date();
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({ title: '', date: '', type: 'Holiday' as any, description: '' });
 
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
@@ -28,11 +29,27 @@ const SchoolCalendar = () => {
     return calendarEvents.filter(e => e.date === dateStr);
   };
 
-  const handleAdd = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    addCalendarEvent({ id: Math.random().toString(36).substr(2, 9), ...form });
+    if (editingId) {
+      await updateCalendarEvent(editingId, form);
+    } else {
+      await addCalendarEvent({ id: Math.random().toString(36).substr(2, 9), ...form });
+    }
     setForm({ title: '', date: '', type: 'Holiday', description: '' });
     setShowForm(false);
+    setEditingId(null);
+  };
+
+  const handleEdit = (ev: any) => {
+    setForm({
+      title: ev.title,
+      date: ev.date,
+      type: ev.type,
+      description: ev.description || ''
+    });
+    setEditingId(ev.id);
+    setShowForm(true);
   };
 
   const upcomingEvents = calendarEvents
@@ -44,7 +61,7 @@ const SchoolCalendar = () => {
     <motion.div className="calendar-page" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <div className="page-header">
         <div><h1 className="page-title">School Calendar</h1><p className="page-subtitle">Holidays, events, exams, and PTM schedule.</p></div>
-        <button className="primary-btn" onClick={() => setShowForm(true)}><Plus size={18} /> Add Event</button>
+        <button className="primary-btn" onClick={() => { setEditingId(null); setForm({ title: '', date: '', type: 'Holiday', description: '' }); setShowForm(true); }}><Plus size={18} /> Add Event</button>
       </div>
 
       <div className="calendar-layout">
@@ -94,7 +111,10 @@ const SchoolCalendar = () => {
                     <span>{ev.date}</span>
                     {ev.description && <p>{ev.description}</p>}
                   </div>
-                  <button className="icon-btn-sm red" onClick={() => deleteCalendarEvent(ev.id)}><X size={12} /></button>
+                  <div className="upcoming-actions" style={{ display: 'flex', gap: '4px' }}>
+                    <button className="icon-btn-sm" onClick={() => handleEdit(ev)} style={{ background: '#f1f5f9', color: '#64748b' }}><Plus size={12} style={{ transform: 'rotate(45deg)' }} /></button>
+                    <button className="icon-btn-sm red" onClick={() => deleteCalendarEvent(ev.id)}><X size={12} /></button>
+                  </div>
                 </div>
               ))}
               {upcomingEvents.length === 0 && <p className="empty-state-sm">No upcoming events.</p>}
@@ -107,10 +127,10 @@ const SchoolCalendar = () => {
         <div className="modal-overlay">
           <motion.div className="modal-box premium-card" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <div className="modal-header">
-              <h3>Add Calendar Event</h3>
+              <h3>{editingId ? 'Edit Event' : 'Add Calendar Event'}</h3>
               <button className="close-modal-btn" onClick={() => setShowForm(false)}><X size={20} /></button>
             </div>
-            <form onSubmit={handleAdd} className="modal-form">
+            <form onSubmit={handleSubmit} className="modal-form">
               <div className="form-field"><label>Event Title *</label><input required type="text" placeholder="e.g. Independence Day" value={form.title} onChange={e => setForm({...form, title: e.target.value})} /></div>
               <div className="form-row">
                 <div className="form-field"><label>Date *</label><input required type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} /></div>
@@ -124,7 +144,7 @@ const SchoolCalendar = () => {
               <div className="form-field"><label>Description</label><textarea rows={3} placeholder="Optional details..." value={form.description} onChange={e => setForm({...form, description: e.target.value})} /></div>
               <div className="modal-footer">
                 <button type="button" className="secondary-btn" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="primary-btn">Add to Calendar</button>
+                <button type="submit" className="primary-btn">{editingId ? 'Update Event' : 'Add to Calendar'}</button>
               </div>
             </form>
           </motion.div>

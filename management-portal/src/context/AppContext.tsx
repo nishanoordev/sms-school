@@ -210,6 +210,7 @@ interface AppContextType {
   addSubject: (subject: Subject) => void;
   deleteSubject: (id: string) => void;
   addNotice: (notice: Notice) => void;
+  updateNotice: (id: string, updates: Partial<Notice>) => Promise<void>;
   deleteNotice: (id: string) => void;
   updateRoutine: (key: string, slots: RoutineSlot[]) => void;
   addLeaveRequest: (req: LeaveRequest) => void;
@@ -221,6 +222,7 @@ interface AppContextType {
   addExam: (exam: ExamSchedule) => void;
   deleteExam: (id: string) => void;
   addCalendarEvent: (event: CalendarEvent) => void;
+  updateCalendarEvent: (id: string, updates: Partial<CalendarEvent>) => Promise<void>;
   deleteCalendarEvent: (id: string) => void;
   addFeeReceipt: (receipt: FeeReceipt) => void;
 }
@@ -432,6 +434,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     } catch { setNotices(prev => [...prev, notice]); }
   };
 
+  const updateNotice = async (id: string, updates: Partial<Notice>) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/notices/${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates)
+      });
+      const updated = res.ok ? await res.json() : null;
+      setNotices(prev => prev.map(n => n.id === id ? (updated || { ...n, ...updates }) : n));
+    } catch { setNotices(prev => prev.map(n => n.id === id ? { ...n, ...updates } : n)); }
+  };
+
   const deleteNotice = async (id: string) => {
     try {
       await fetch(`${API_BASE_URL}/notices/${id}`, { method: 'DELETE' });
@@ -525,6 +537,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     } catch { setCalendarEvents(prev => [...prev, event]); }
   };
 
+  const updateCalendarEvent = async (id: string, updates: Partial<CalendarEvent>) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/calendar/${id}`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updates)
+      });
+      const updated = res.ok ? await res.json() : null;
+      setCalendarEvents(prev => prev.map(e => e.id === id ? (updated || { ...e, ...updates }) : e));
+    } catch { setCalendarEvents(prev => prev.map(e => e.id === id ? { ...e, ...updates } : e)); }
+  };
+
   const deleteCalendarEvent = async (id: string) => {
     try {
       await fetch(`${API_BASE_URL}/calendar/${id}`, { method: 'DELETE' });
@@ -552,10 +574,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
       updateSchoolProfile, addStudent, updateStudent, addTeacher, updateTeacher, deleteTeacher,
       markAttendance,
-      addClass, addSubject, deleteSubject, addNotice, deleteNotice, updateRoutine,
+      addClass, addSubject, deleteSubject, addNotice, updateNotice, deleteNotice, updateRoutine,
       addLeaveRequest, updateLeaveStatus, addSalaryRecord, updateSalaryStatus,
       addHomework, deleteHomework, addExam, deleteExam,
-      addCalendarEvent, deleteCalendarEvent, addFeeReceipt
+      addCalendarEvent, updateCalendarEvent, deleteCalendarEvent, addFeeReceipt
     }}>
       {children}
     </AppContext.Provider>
