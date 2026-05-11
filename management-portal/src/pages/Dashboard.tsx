@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { 
   Users, 
   CalendarDays, 
-  BookOpen, 
   Building2, 
   TrendingUp, 
   ArrowRight,

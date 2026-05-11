@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, Users, ArrowRight, CheckCircle, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { TrendingUp, ArrowRight, CheckCircle, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import './Promotion.css';
 

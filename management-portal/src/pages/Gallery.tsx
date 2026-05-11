@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Plus, Trash2, Camera, Filter, Search } from 'lucide-react';
+import { Plus, Trash2, Camera, Search } from 'lucide-react';
 import './Gallery.css';
 
 interface GalleryItem {

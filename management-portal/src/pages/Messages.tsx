@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Trash2, CheckCircle, Clock, Search, MessageSquare } from 'lucide-react';
+import { Trash2, CheckCircle, Clock, Search, MessageSquare } from 'lucide-react';
 import './Messages.css';
 
 interface ContactMessage {
