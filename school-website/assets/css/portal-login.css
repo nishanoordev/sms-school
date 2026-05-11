@@ -1,0 +1,102 @@
+/* Portal Login Modal Styles */
+.sms-login-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(73, 13, 89, 0.85); /* Purple overlay */
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.sms-login-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    text-align: center;
+    transform: translateY(0);
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.sms-login-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #490D59;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.sms-login-header h2 {
+    color: #490D59;
+    font-family: 'Fredoka', sans-serif;
+    margin-bottom: 10px;
+}
+
+.sms-login-header p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.sms-login-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.sms-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.sms-login-btn.student {
+    background: #FFD600;
+    color: #490D59;
+}
+
+.sms-login-btn.staff {
+    background: #490D59;
+    color: #fff;
+}
+
+.sms-login-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.sms-login-btn i {
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.sms-login-btn span {
+    font-size: 18px;
+    font-weight: 700;
+}

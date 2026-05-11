@@ -4,10 +4,10 @@
   "workspaces": [
     "backend",
     "management-portal",
-    "public-website"
+    "management-portal"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w management-portal\" \"npm run dev -w public-website\"",
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w management-portal\"",
     "build": "npm run build --workspaces",
     "start": "npm start -w backend",
     "install:all": "npm install"

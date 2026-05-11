@@ -182,6 +182,17 @@ model CalendarEvent {
   updatedAt   DateTime @updatedAt
 }
 
+model PublicCalendarEvent {
+  id          Int      @id @default(autoincrement())
+  title       String
+  date        DateTime
+  description String?
+  category    String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model FeeReceipt {
   id              String   @id @default(uuid())
   receiptNo       String   @unique
@@ -218,3 +229,25 @@ model ClassRoom {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
+
+model GalleryItem {
+  id          String   @id @default(uuid())
+  title       String
+  imageUrl    String
+  category    String?  @default("School")
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("New")
+  createdAt DateTime @default(now())
+}
+
+

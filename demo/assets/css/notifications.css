@@ -1,0 +1,195 @@
+/* ============================================================
+   Bell Icon + Quick Preview Dropdown
+   ============================================================ */
+.notif-bell-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.notif-bell-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  color: #333;
+  position: relative;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+.notif-bell-btn:hover { background: rgba(73,13,89,0.08); color: #490D59; }
+.notif-badge {
+  position: absolute;
+  top: 2px; right: 2px;
+  background: #e63946;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+.notif-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 320px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  z-index: 9999;
+  overflow: hidden;
+  animation: notifSlideDown 0.2s ease;
+}
+.notif-dropdown.open { display: block; }
+@keyframes notifSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.notif-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+.notif-dropdown-header h5 { margin:0; font-size:14px; font-weight:700; color:#333; }
+.notif-view-all { font-size:12px; color:#490D59; text-decoration:none; font-weight:600; }
+.notif-dropdown-list { max-height:280px; overflow-y:auto; }
+.notif-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.notif-item:hover { background: #faf5ff; }
+.notif-item-date-box {
+  min-width: 42px; height: 42px;
+  background: #490D59;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+.notif-item-date-box .day { font-size:16px; font-weight:700; line-height:1; }
+.notif-item-date-box .month { font-size:9px; text-transform:uppercase; letter-spacing:0.5px; }
+.notif-item-body { flex:1; min-width:0; }
+.notif-item-title { font-size:13px; font-weight:600; color:#222; margin:0 0 3px; }
+.notif-item-category {
+  font-size:11px; padding:2px 8px;
+  border-radius:20px; font-weight:600;
+  display:inline-block;
+}
+.cat-holiday    { background:#ffe0e0; color:#c0392b; }
+.cat-exam       { background:#fff0dd; color:#e67e22; }
+.cat-event      { background:#f0e6ff; color:#8e44ad; }
+.cat-meeting    { background:#e0f0ff; color:#2980b9; }
+.cat-announcement { background:#e0ffe8; color:#27ae60; }
+.cat-other      { background:#f0f0f0; color:#555; }
+.notif-dropdown-footer {
+  padding:10px 16px;
+  background:#fafafa;
+  border-top:1px solid #f0f0f0;
+  text-align:center;
+}
+.notif-footer-btn {
+  display:block; padding:8px;
+  background:#490D59; color:white;
+  border-radius:8px; text-decoration:none;
+  font-size:13px; font-weight:600;
+  transition:background 0.2s;
+}
+.notif-footer-btn:hover { background:#6a006a; color:white; }
+@media (max-width:768px) { .notif-dropdown { width:290px; right:-10px; } }
+
+/* ============================================================
+   Full Notifications Page
+   ============================================================ */
+.notifications-section { padding: 60px 0 80px; background: #f8f6fc; }
+
+.notif-filter-bar {
+  display:flex; gap:10px; flex-wrap:wrap; margin-bottom:30px;
+}
+.filter-btn {
+  padding:8px 20px;
+  border:2px solid #e0e0e0;
+  background:white;
+  border-radius:25px;
+  font-size:13px; font-weight:600;
+  cursor:pointer; transition:all 0.2s; color:#555;
+}
+.filter-btn:hover, .filter-btn.active {
+  background:#490D59; border-color:#490D59; color:white;
+}
+.notif-layout {
+  display:grid; grid-template-columns:300px 1fr; gap:30px; align-items:start;
+}
+@media(max-width:768px){ .notif-layout{ grid-template-columns:1fr; } }
+
+/* Mini Calendar */
+.notif-calendar-panel { position:sticky; top:20px; }
+.mini-calendar {
+  background:white; border-radius:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  padding:20px; overflow:hidden;
+}
+.mini-cal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.mini-cal-header h4 { margin:0; font-size:16px; font-weight:700; color:#333; }
+.mini-cal-nav {
+  background:none; border:none; cursor:pointer;
+  font-size:18px; color:#490D59; padding:4px 8px; border-radius:6px;
+}
+.mini-cal-nav:hover { background:#f0e6ff; }
+.mini-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
+.mini-cal-day-name { font-size:11px; font-weight:700; color:#999; padding:4px 0; text-transform:uppercase; }
+.mini-cal-date {
+  font-size:13px; padding:6px 4px; border-radius:6px;
+  cursor:pointer; color:#444; transition:all 0.15s;
+}
+.mini-cal-date:hover { background:#f0e6ff; color:#490D59; }
+.mini-cal-date.has-event { background:#490D59; color:white; font-weight:700; }
+.mini-cal-date.today { border:2px solid #490D59; font-weight:700; }
+.mini-cal-date.selected { background:#ffd700; color:#333; }
+.mini-cal-date.empty { cursor:default; pointer-events:none; }
+
+/* Event Cards */
+.notif-events-panel { }
+.notif-events-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.notif-events-header h3 { margin:0; font-size:20px; font-weight:700; color:#222; }
+.events-count {
+  background:#f0e6ff; color:#490D59;
+  padding:4px 12px; border-radius:20px; font-size:13px; font-weight:600;
+}
+.event-card {
+  background:white; border-radius:14px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+  padding:20px; margin-bottom:16px;
+  display:flex; gap:20px; align-items:flex-start;
+  transition:transform 0.2s, box-shadow 0.2s;
+  border-left:4px solid #490D59;
+}
+.event-card:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(0,0,0,0.12); }
+.event-card-date { min-width:60px; text-align:center; }
+.event-card-date .big-day { font-size:32px; font-weight:800; color:#490D59; line-height:1; }
+.event-card-date .big-month { font-size:13px; font-weight:600; color:#888; text-transform:uppercase; }
+.event-card-date .big-year { font-size:11px; color:#aaa; }
+.event-card-divider { width:1px; background:#eee; align-self:stretch; }
+.event-card-body { flex:1; }
+.event-card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.event-card-title { font-size:17px; font-weight:700; color:#222; margin:0; }
+.event-card-desc { font-size:14px; color:#666; line-height:1.6; margin:0; }
+.event-card-time { font-size:12px; color:#999; margin-top:8px; }
+.notif-empty { text-align:center; padding:60px 20px; color:#999; }
+.notif-empty svg { opacity:0.3; margin-bottom:16px; }
+.notif-empty p { font-size:16px; }

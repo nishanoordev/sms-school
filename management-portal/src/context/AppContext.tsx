@@ -167,6 +167,17 @@ export interface FeeReceipt {
   collectedBy: string;
 }
 
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: string;
+  createdAt: string;
+}
+
+
 const API_BASE_URL = 'http://localhost:3001/api';
 
 interface AppContextType {
@@ -183,7 +194,9 @@ interface AppContextType {
   examSchedules: ExamSchedule[];
   calendarEvents: CalendarEvent[];
   feeReceipts: FeeReceipt[];
+  contactMessages: ContactMessage[];
   loading: boolean;
+
   error: string | null;
   attendanceRecords: { studentId: string; date: string; status: string }[];
   updateSchoolProfile: (profile: SchoolProfile) => void;
@@ -249,6 +262,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [examSchedules, setExamSchedules]           = useState<ExamSchedule[]>([]);
   const [calendarEvents, setCalendarEvents]         = useState<CalendarEvent[]>([]);
   const [feeReceipts, setFeeReceipts]               = useState<FeeReceipt[]>([]);
+  const [contactMessages, setContactMessages]       = useState<ContactMessage[]>([]);
+
 
 
   // Fetch ALL data from API on load
@@ -259,8 +274,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         const endpoints = [
           'students', 'teachers', 'attendance', 'notices',
           'leave', 'salary', 'homework', 'exams',
-          'calendar', 'fees', 'subjects'
+          'calendar', 'fees', 'subjects', 'contact'
         ];
+
         const results = await Promise.allSettled(
           endpoints.map(ep => fetch(`${API_BASE_URL}/${ep}`).then(r => r.ok ? r.json() : []))
         );
@@ -276,7 +292,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setCalendarEvents(getValue(8));
         setFeeReceipts(getValue(9));
         setSubjects(getValue(10));
+        setContactMessages(getValue(11));
         setError(null);
+
       } catch (err: any) {
         console.error('API error:', err);
         setError(err.message);
@@ -530,7 +548,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     <AppContext.Provider value={{
       schoolProfile, students, teachers, classes, subjects, notices, routines,
       leaveRequests, salaryRecords, homeworkAssignments, examSchedules, calendarEvents, feeReceipts,
-      loading, error, attendanceRecords,
+      contactMessages, loading, error, attendanceRecords,
+
       updateSchoolProfile, addStudent, updateStudent, addTeacher, updateTeacher, deleteTeacher,
       markAttendance,
       addClass, addSubject, deleteSubject, addNotice, deleteNotice, updateRoutine,

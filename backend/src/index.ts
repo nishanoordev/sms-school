@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
-import next from 'next';
 
 import studentRoutes from './routes/studentRoutes';
 import teacherRoutes from './routes/teacherRoutes';
@@ -18,69 +17,73 @@ import calendarRoutes from './routes/calendarRoutes';
 import feeRoutes from './routes/feeRoutes';
 import classRoutes from './routes/classRoutes';
 import subjectRoutes from './routes/subjectRoutes';
+import galleryRoutes from './routes/galleryRoutes';
+import contactRoutes from './routes/contactRoutes';
+import promotionRoutes from './routes/promotionRoutes';
+import calendarEventsRoutes from './routes/calendarEventsRoutes';
+
+
+
 
 dotenv.config();
 
-const dev = process.env.NODE_ENV !== 'production';
-const PORT = process.env.PORT || 3000;
-
-// Resolve paths correctly whether running from src/ (ts-node) or dist/ (node)
+const PORT = process.env.PORT || 3001;
 const rootDir = path.resolve(__dirname, '../../');
-const nextApp = next({ dev, dir: path.join(rootDir, 'public-website') });
-const handle = nextApp.getRequestHandler();
 
-nextApp.prepare().then(() => {
-  const app = express();
+const app = express();
 
-  // ✅ CORS — allow all origins
-  app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  }));
-  app.options('*', cors());
-  app.use(express.json());
+// ✅ CORS — allow all origins
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options('*', cors());
+app.use(express.json());
 
-  // ✅ All API Routes
-  app.use('/api/students',    studentRoutes);
-  app.use('/api/teachers',    teacherRoutes);
-  app.use('/api/attendance',  attendanceRoutes);
-  app.use('/api/grades',      gradeRoutes);
-  app.use('/api/users',       userRoutes);
-  app.use('/api/notices',     noticeRoutes);
-  app.use('/api/leave',       leaveRoutes);
-  app.use('/api/salary',      salaryRoutes);
-  app.use('/api/homework',    homeworkRoutes);
-  app.use('/api/exams',       examRoutes);
-  app.use('/api/calendar',    calendarRoutes);
-  app.use('/api/fees',        feeRoutes);
-  app.use('/api/classes',     classRoutes);
-  app.use('/api/subjects',    subjectRoutes);
+// ✅ All API Routes
+app.use('/api/students',    studentRoutes);
+app.use('/api/teachers',    teacherRoutes);
+app.use('/api/attendance',  attendanceRoutes);
+app.use('/api/grades',      gradeRoutes);
+app.use('/api/users',       userRoutes);
+app.use('/api/notices',     noticeRoutes);
+app.use('/api/leave',       leaveRoutes);
+app.use('/api/salary',      salaryRoutes);
+app.use('/api/homework',    homeworkRoutes);
+app.use('/api/exams',       examRoutes);
+app.use('/api/calendar',    calendarRoutes);
+app.use('/api/fees',        feeRoutes);
+app.use('/api/classes',     classRoutes);
+app.use('/api/subjects',    subjectRoutes);
+app.use('/api/gallery',     galleryRoutes);
+app.use('/api/contact',     contactRoutes);
+app.use('/api/promote',     promotionRoutes);
+app.use('/api/calendar-events', calendarEventsRoutes);
 
-  app.get('/api', (req, res) => {
-    res.json({ message: '✅ School Management API is running' });
-  });
 
-  // ✅ Serve Vite Management Portal
-  // The built files will be in management-portal/dist
-  const portalPath = path.join(rootDir, 'management-portal/dist');
-  app.use('/portal', express.static(portalPath));
-  app.get('/portal/*', (req, res) => {
-    res.sendFile(path.join(portalPath, 'index.html'));
-  });
 
-  // ✅ Handle all other requests with Next.js (Public Website)
-  app.all('*', (req, res) => {
-    return handle(req, res);
-  });
+app.get('/api', (req, res) => {
+  res.json({ message: '✅ School Management API is running' });
+});
 
-  app.listen(PORT, () => {
-    console.log(`✅ Single Server running on http://localhost:${PORT}`);
-    console.log(`📦 Serving API on /api`);
-    console.log(`🏫 Serving Management Portal on /portal`);
-    console.log(`🌍 Serving Public Website on /*`);
-  });
-}).catch((ex) => {
-  console.error(ex.stack);
-  process.exit(1);
+// ✅ Serve Vite Management Portal
+const portalPath = path.join(rootDir, 'management-portal/dist');
+app.use('/portal', express.static(portalPath));
+app.get('/portal/*', (req, res) => {
+  res.sendFile(path.join(portalPath, 'index.html'));
+});
+
+// ✅ Serve Static Public Website (Kiddino HTML template)
+const publicPath = path.join(rootDir, 'school-website');
+app.use(express.static(publicPath));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`📦 API         → /api`);
+  console.log(`🏫 Portal      → /portal`);
+  console.log(`🌍 Public Site → /`);
 });

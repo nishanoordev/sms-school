@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# School Management System (SMS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive, full-stack School Management System designed for educational institutions. This system provides a robust backend API, a modern management portal for staff/admins, and a public-facing website for the school.
 
-Currently, two official plugins are available:
+## 🚀 Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project is a monorepo containing three main components:
+1.  **Backend API**: A Node.js/Express server using Prisma ORM to manage school data.
+2.  **Management Portal**: A React/Vite/TypeScript application for administrative tasks.
+3.  **Public Website**: A static/dynamic website for the school's public presence.
 
-## React Compiler
+### Key Features
+-   **Student & Teacher Management**: Detailed profiles, academic history, and employment records.
+-   **Attendance Tracking**: Daily attendance logs for students.
+-   **Academic Management**: Grades, exams, homework assignments, and class schedules.
+-   **Financials**: Fee collection, receipt generation, and staff salary management.
+-   **Communication**: Notices, calendar events, and contact messages.
+-   **Administrative Tools**: Leave requests, student promotions, and gallery management.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+### Backend
+-   **Runtime**: Node.js
+-   **Framework**: Express.js
+-   **Language**: TypeScript
+-   **ORM**: Prisma
+-   **Database**: PostgreSQL
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Management Portal
+-   **Framework**: React 19
+-   **Build Tool**: Vite
+-   **Language**: TypeScript
+-   **Styling**: Custom CSS (PRD-based)
+-   **Icons**: Lucide React
+-   **Animations**: Framer Motion
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Public Website
+-   **Structure**: HTML5
+-   **Styling**: CSS3 / Bootstrap
+-   **Scripts**: JavaScript / jQuery
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📂 Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+/
+├── backend/                # Express API & Prisma schema
+├── management-portal/      # React Admin Portal
+├── school-website/         # Public School Website
+├── demo/                   # Demo version of the website
+├── deploy.sh               # Raspberry Pi deployment script
+└── package.json            # Root workspace configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Installation & Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
+-   Node.js (v18+)
+-   npm or yarn
+-   PostgreSQL database
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Steps
+
+1.  **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd sms-school
+    ```
+
+2.  **Install dependencies**:
+    From the root directory:
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Variables**:
+    Create a `.env` file in the `backend` directory:
+    ```env
+    PORT=3001
+    DATABASE_URL="postgresql://user:password@localhost:5432/school_db"
+    ```
+
+4.  **Database Setup**:
+    ```bash
+    cd backend
+    npx prisma generate
+    npx prisma db push
+    ```
+
+5.  **Run in Development**:
+    From the root directory:
+    ```bash
+    npm run dev
+    ```
+    -   API: [http://localhost:3001/api](http://localhost:3001/api)
+    -   Portal: [http://localhost:3001/portal](http://localhost:3001/portal)
+    -   Website: [http://localhost:3001](http://localhost:3001)
+
+## 🚢 Deployment
+
+The project includes a `deploy.sh` script optimized for Raspberry Pi or Linux servers using PM2.
+
+1.  Ensure PM2 is installed: `npm install -g pm2`
+2.  Run the deployment script:
+    ```bash
+    chmod +x deploy.sh
+    ./deploy.sh
+    ```
+
+### Manual Build
+```bash
+npm run build
+npm start
 ```
+
+## 📄 License
+
+This project is private and intended for specific institutional use.

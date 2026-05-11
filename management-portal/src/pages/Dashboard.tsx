@@ -7,20 +7,22 @@ import {
   TrendingUp, 
   ArrowRight,
   Bell,
-  UserCheck
+  UserCheck,
+  Mail
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { students, teachers, classes, notices } = useApp();
+  const { students, teachers, classes, notices, contactMessages } = useApp();
 
   const stats = [
     { label: 'Total Students', value: students.length.toString(), trend: '+24', isUp: true, icon: <Users /> },
     { label: 'Active Teachers', value: teachers.length.toString(), trend: '+2', isUp: true, icon: <UserCheck /> },
+    { label: 'New Inquiries', value: contactMessages.filter(m => m.status === 'New').length.toString(), trend: 'Action Required', isUp: false, icon: <Mail /> },
     { label: 'Total Classes', value: classes.length.toString(), trend: 'Stable', isUp: true, icon: <Building2 /> },
-    { label: 'Active Subjects', value: '42', trend: '+4', isUp: true, icon: <BookOpen /> },
   ];
+
 
   return (
     <motion.div 

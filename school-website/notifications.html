@@ -1,0 +1,379 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Notifications &amp; Events | Kiddino School</title>
+    <meta name="author" content="Kiddino">
+    <meta name="description" content="Stay updated with all school announcements, upcoming events, holidays and exam schedules.">
+    <meta name="keywords" content="school notifications, events, holiday, exam schedule, announcements">
+    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Fontawesome Icon -->
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" href="assets/css/slick.min.css">
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Notifications CSS -->
+    <link rel="stylesheet" href="assets/css/notifications.css">
+
+    <style>
+        .notif-text-link {
+            display: inline-flex;
+            align-items: center;
+            background: #fff;
+            border: 2px solid #490D59;
+            color: #490D59;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .notif-text-link:hover {
+            background: #490D59;
+            color: #fff;
+        }
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            background: #e63946;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: inline-block;
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+        }
+        @media (max-width: 991px) {
+            .notif-text-link { display: none; }
+        }
+    </style>
+<link rel="stylesheet" href="assets/css/portal-login.css">
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <button class="vs-btn preloaderCls">Cancel Preloader</button>
+        <div class="preloader-inner"><div class="loader"></div></div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="vs-menu-wrapper">
+        <div class="vs-menu-area text-center">
+            <button class="vs-menu-toggle"><i class="fal fa-times"></i></button>
+            <div class="mobile-logo">
+                <a href="index.html"><img src="assets/img/logo.svg" alt="Kiddino"></a>
+            </div>
+            <div class="vs-mobile-menu">
+                <ul>
+                    <li><a href="index.html">Demo</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="class.html">Classes</a></li>
+                    <li class="menu-item-has-children">
+                        <a href="blog.html">Blog</a>
+                        <ul class="sub-menu">
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="blog-details.html">Blog Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item-has-children">
+                        <a href="#">Pages</a>
+                        <ul class="sub-menu">
+                            <li><a href="service.html">Service</a></li>
+                            <li><a href="team.html">Team</a></li>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidemenu -->
+    <div class="sidemenu-wrapper d-none d-lg-block">
+        <div class="sidemenu-content">
+            <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
+            <div class="widget">
+                <div class="widget-about">
+                    <div class="footer-logo"><img src="assets/img/logo.svg" alt="Kiddino"></div>
+                    <p class="mb-0">We are constantly expanding the range of services offered, taking care of children of all ages.</p>
+                </div>
+            </div>
+            <div class="widget">
+                <h3 class="widget_title">Get In Touch</h3>
+                <div>
+                    <p class="footer-text">Monday to Friday: <span class="time">8.30am &ndash; 02.00pm</span></p>
+                    <p class="footer-text">Saturday, Sunday: <span class="time">Close</span></p>
+                    <p class="footer-info"><i class="fal fa-envelope"></i>Email: <a href="mailto:user@domainname.com">user@domainname.com</a></p>
+                    <p class="footer-info"><i class="fas fa-mobile-alt"></i>Phone: <a href="tel:+4402076897888">+44 (0) 207 689 7888</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Search Box -->
+    <div class="popup-search-box d-none d-lg-block">
+        <button class="searchClose"><i class="fal fa-times"></i></button>
+        <form action="#">
+            <input type="text" class="border-theme" placeholder="What are you looking for">
+            <button type="submit"><i class="fal fa-search"></i></button>
+        </form>
+    </div>
+
+    <!-- Header -->
+    <header class="vs-header header-layout1">
+        <div class="header-top">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-auto d-none d-lg-block">
+                        <div class="header-links style-white">
+                            <ul>
+                                <li>
+                                    <a href="#" id="loginModalToggleBtn" onclick="document.getElementById('smsLoginModal').style.display='flex'; return false;">
+                                        <i class="far fa-user-circle"></i>Login
+                                    </a>
+                                </li>
+                                <li><a href="contact.html" class="searchBoxTggler"><i class="far fa-search"></i>Search Keyword</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-auto text-center">
+                        <div class="header-links style2 style-white">
+                            <ul>
+                                <li><i class="fas fa-envelope"></i>Email: <a href="mailto:user@example.com">user@example.com</a></li>
+                                <li><i class="fas fa-mobile-alt"></i>Phone: <a href="tel:+4402076897888">+44 (0) 207 689 7888</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sticky-wrap">
+            <div class="sticky-active">
+                <div class="container">
+                    <div class="row gx-3 align-items-center justify-content-between">
+                        <div class="col-8 col-sm-auto">
+                            <div class="header-logo">
+                                <a href="index.html"><img src="assets/img/logo.svg" alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="col text-end text-lg-center">
+                            <nav class="main-menu menu-style1 d-none d-lg-block">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="about.html">About</a></li>
+                                    <li><a href="class.html">Classes</a></li>
+                                    <li><a href="event-details.html">Events</a></li>
+                                    <li><a href="blog.html">Blog</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">More</a>
+                                        <ul class="sub-menu">
+                                            <li><a href="gallery.html">Gallery</a></li>
+                                            <li><a href="faq.html">FAQ</a></li>
+                                            <li><a href="team.html">Teachers</a><li><a href="contact.html">Contact</a></li>
+                                    <li><a href="notifications.html" style="color:#490D59; font-weight:700;">&#128276; Notifications</a></li>
+                                </ul>
+                            </nav>
+                            <button class="vs-menu-toggle d-inline-block d-lg-none"><i class="fal fa-bars"></i></button>
+                        </div>
+                        <div class="col-auto d-none d-lg-block">
+                            <div class="header-icons" style="display:flex;align-items:center;gap:8px;">
+                                <div class="notif-bell-wrapper" id="notifBellWrapper">
+                                  <button class="notif-bell-btn" id="notifBellBtn" aria-label="Notifications">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                                    </svg>
+                                    <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
+                                  </button>
+                                  <div class="notif-dropdown" id="notifDropdown">
+                                    <div class="notif-dropdown-header">
+                                      <h5>Upcoming Events</h5>
+                                      <a href="notifications.html" class="notif-view-all">View All &rarr;</a>
+                                    </div>
+                                    <div class="notif-dropdown-list" id="notifDropdownList">
+                                      <p style="padding:16px;color:#999;text-align:center;font-size:13px;">Loading...</p>
+                                    </div>
+                                    <div class="notif-dropdown-footer">
+                                      <a href="notifications.html" class="notif-footer-btn">Open Full Calendar</a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <button class="simple-icon sideMenuToggler"><i class="far fa-bars"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-auto d-none d-xl-block">
+                            <a href="contact.html" class="vs-btn sideMenuToggler">Apply Today</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcumb Banner -->
+    <div class="breadcumb-wrapper" data-bg-src="assets/img/breadcumb/breadcumb-bg.jpg">
+        <div class="container z-index-common">
+            <div class="breadcumb-content">
+                <h1 class="breadcumb-title">Notifications &amp; Events</h1>
+                <p class="breadcumb-text">Stay updated with all school announcements and upcoming events</p>
+                <div class="breadcumb-menu-wrap">
+                    <ul class="breadcumb-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li>Notifications</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Notifications Section -->
+    <section class="notifications-section">
+        <div class="container">
+
+            <!-- Filter Bar -->
+            <div class="notif-filter-bar">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="holiday">Holiday</button>
+                <button class="filter-btn" data-filter="exam">Exam</button>
+                <button class="filter-btn" data-filter="event">Event</button>
+                <button class="filter-btn" data-filter="meeting">Meeting</button>
+                <button class="filter-btn" data-filter="announcement">Announcement</button>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="notif-layout">
+
+                <!-- Left: Mini Calendar -->
+                <div class="notif-calendar-panel">
+                    <div class="mini-calendar" id="miniCalendar">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Right: Events List -->
+                <div class="notif-events-panel">
+                    <div class="notif-events-header">
+                        <h3 id="eventsHeading">All Upcoming Events</h3>
+                        <span class="events-count" id="eventsCount"></span>
+                    </div>
+                    <div class="notif-events-list" id="notifEventsList">
+                        <!-- Events injected by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-wrapper footer-layout1" data-bg-src="assets/img/bg/footer-bg-1-1.png">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row gx-60 gy-4 text-center text-lg-start justify-content-between align-items-center">
+                    <div class="col-lg"><a href="index.html"><img src="assets/img/logo-2.svg" alt="logo"></a></div>
+                    <div class="col-lg-auto">
+                        <h3 class="h4 mb-0 text-white"><img src="assets/img/icon/check-list.svg" alt="icon" class="me-2"> Enrol your child in a Session now!</h3>
+                    </div>
+                    <div class="col-lg-auto"><a href="contact.html" class="vs-btn">Start Registration</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="widget-area">
+            <div class="container">
+                <div class="row justify-content-center gx-60">
+                    <div class="col-lg-4">
+                        <div class="widget footer-widget">
+                            <div class="widget-about">
+                                <h3 class="mt-n2">Giving your child the best start in life</h3>
+                                <p class="map-link"><img src="assets/img/icon/map.svg" alt="svg">First Floor, 10A Chandos Street London New Town W1G 9LE</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="widget footer-widget">
+                            <h3 class="widget_title">Get In Touch</h3>
+                            <div>
+                                <p class="footer-text">Monday to Friday: <span class="time">8.30am &ndash; 02.00pm</span></p>
+                                <p class="footer-text">Saturday, Sunday: <span class="time">Close</span></p>
+                                <p class="footer-info"><i class="fal fa-envelope"></i>Email: <a href="mailto:user@domainname.com">user@domainname.com</a></p>
+                                <p class="footer-info"><i class="fas fa-mobile-alt"></i>Phone: <a href="tel:+4402076897888">+44 (0) 207 689 7888</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="widget widget_nav_menu footer-widget">
+                            <h3 class="widget_title">Quick Links</h3>
+                            <div class="menu-all-pages-container footer-menu">
+                                <ul class="menu">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="class.html">Classes</a></li>
+                                    <li><a href="notifications.html">Notifications &amp; Events</a></li>
+                                    <li><a href="gallery.html">Gallery</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="#" onclick="openSmsLogin(event)"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-wrap">
+            <div class="container">
+                <div class="row flex-row-reverse gy-3 justify-content-between align-items-center">
+                    <div class="col-lg-auto">
+                        <div class="footer-social">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-auto">
+                        <p class="copyright-text">&copy; 2024 <a href="index.html">Kiddino School</a>. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#" class="scrollToTop scroll-btn"><i class="far fa-arrow-up"></i></a>
+
+    <!-- JS Files -->
+    <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!-- Notifications Page JS -->
+    <script src="assets/js/notifications.js"></script>
+    <!-- Bell Notifications JS -->
+    <script src="assets/js/bell-notifications.js"></script>
+
+<script src="assets/js/portal-login.js"></script>
+</body>
+</html>

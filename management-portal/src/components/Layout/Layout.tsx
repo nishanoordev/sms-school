@@ -4,7 +4,7 @@ import {
   LayoutDashboard, UserPlus, Users, CalendarDays, BookOpen, Building2,
   UserSquare, ClipboardCheck, Bell, Search, Menu, X, ChevronRight,
   Wallet, FileText, Settings, Calendar, LogOut, DollarSign, BookMarked,
-  ClipboardList, Award
+  ClipboardList, Award, Image, Mail, TrendingUp
 } from 'lucide-react';
 import './Layout.css';
 
@@ -17,7 +17,9 @@ const navGroups = [
       { path: '/students', icon: <Users size={18} />, label: 'Student Directory' },
       { path: '/attendance', icon: <ClipboardCheck size={18} />, label: 'Attendance' },
       { path: '/reports', icon: <FileText size={18} />, label: 'Progress Reports' },
+      { path: '/promote', icon: <TrendingUp size={18} />, label: 'Student Promotion' },
       { path: '/tc', icon: <Award size={18} />, label: 'Transfer Certificate' },
+
     ]
   },
   {
@@ -43,7 +45,12 @@ const navGroups = [
     items: [
       { path: '/finance', icon: <Wallet size={18} />, label: 'Fee Management' },
       { path: '/communication', icon: <Bell size={18} />, label: 'Notice Board' },
+      { path: '/notifications', icon: <Bell size={18} />, label: 'Notifications & Calendar' },
+      { path: '/gallery', icon: <Image size={18} />, label: 'Photo Gallery' },
+      { path: '/messages', icon: <Mail size={18} />, label: 'Website Inquiries' },
       { path: '/calendar', icon: <Calendar size={18} />, label: 'School Calendar' },
+
+
       { path: '/settings', icon: <Settings size={18} />, label: 'School Profile' },
     ]
   }

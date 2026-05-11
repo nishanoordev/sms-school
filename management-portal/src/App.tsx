@@ -21,7 +21,14 @@ import Payroll from './pages/Payroll';
 import Homework from './pages/Homework';
 import Exams from './pages/Exams';
 import TCGenerator from './pages/TCGenerator';
+import Gallery from './pages/Gallery';
+import Messages from './pages/Messages';
+import Promotion from './pages/Promotion';
+import CalendarEvents from './pages/CalendarEvents';
 import './App.css';
+
+
+
 
 import { useApp } from './context/AppContext';
 
@@ -75,7 +82,14 @@ const AppContent = () => {
         <Route path="homework" element={<Homework />} />
         <Route path="exams" element={<Exams />} />
         <Route path="tc" element={<TCGenerator />} />
+        <Route path="gallery" element={<Gallery />} />
+        <Route path="messages" element={<Messages />} />
+        <Route path="promote" element={<Promotion />} />
+        <Route path="notifications" element={<CalendarEvents />} />
         <Route path="*" element={<Dashboard />} />
+
+
+
       </Route>
     </Routes>
     </>

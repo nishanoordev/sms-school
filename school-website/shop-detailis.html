@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+
+    <style>
+        .notif-text-link {
+            display: inline-flex;
+            align-items: center;
+            background: #fff;
+            border: 2px solid #490D59;
+            color: #490D59;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .notif-text-link:hover {
+            background: #490D59;
+            color: #fff;
+        }
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            background: #e63946;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: inline-block;
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+        }
+        @media (max-width: 991px) {
+            .notif-text-link { display: none; }
+        }
+    </style>
+<link rel="stylesheet" href="assets/css/portal-login.css">
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+    <!-- Bell Notifications JS -->
+    <script src="assets/js/bell-notifications.js"></script>
+<script src="assets/js/portal-login.js"></script>
+
+    <div id="smsLoginModal" class="sms-login-modal">
+        <div class="sms-login-content">
+            <span class="sms-login-close">&times;</span>
+            <div class="sms-login-header">
+                <h2>SMS Portal Login</h2>
+                <p>Select your dashboard to continue</p>
+            </div>
+            <div class="sms-login-options">
+                <a href="/portal" class="sms-login-btn student">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Student Portal</span>
+                </a>
+                <a href="/portal" class="sms-login-btn staff">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Staff & Teacher Portal</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body></html>
